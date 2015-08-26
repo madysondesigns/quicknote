@@ -2,6 +2,8 @@
 
 A simple note that lives in a new browser tab. I typically am already in a browser or have it available, so that's where I want to jot something down quickly.
 
+![](https://raw.githubusercontent.com/swhinnem/quicknote/master/screenshot.png)
+
 ## Installing QuickNote
 
 Copy the HTML file wherever you want it. Locally, on your server, wherever. It's just the one file. #simplicity
