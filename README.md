@@ -25,3 +25,7 @@ Feel free to use or modify as you see fit (GPL). Let me know how you use it!
 
 Questions or suggestions? Tweet me [@MadysonDesigns](http://twitter.com/madysondesigns) or email sarah@madysondesigns.com.
 
+## To Do:
+
+- [X] Base64 encode webfont to kill a request
+- [ ] Add a button to save direct to Evernote
