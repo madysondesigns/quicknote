@@ -6,7 +6,7 @@ A simple note that lives in a new browser tab. I typically am already in a brows
 
 ## Installing QuickNote
 
-Copy the HTML file wherever you want it. Locally, on your server, wherever. It's just the one file. #simplicity
+Copy the HTML file wherever you want it. Locally, on your server, wherever. It's just the one file (favicon optional). #simplicity
 
 ## Using QuickNote
 
@@ -28,4 +28,5 @@ Questions or suggestions? Tweet me [@MadysonDesigns](http://twitter.com/madysond
 ## To Do:
 
 - [X] Base64 encode webfont to kill a request
+- [X] Add Favicon
 - [ ] Add a button to save direct to Evernote
