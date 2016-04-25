@@ -17,6 +17,8 @@ Whenever you need to jot something down, open QuickNote and type away. Use the b
 
 Uses LocalStorage to save your note over accidental refreshes, tab closes, or browser restarts.
 
+Inserts the date you created a note at the top. If you're like me, you leave notes open in browser tabs for far too long. 
+
 ## About QuickNote
 
 I wrote this quickly so I can give up Post-It notes. I hate Post-It notes.
