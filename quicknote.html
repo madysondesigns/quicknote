@@ -116,6 +116,11 @@
 
                 if(sessionStorage.getItem('quick_note')){
                     this.ui.editor.val(sessionStorage.getItem('quick_note'));
+                } else  {
+                    var d = new Date(),
+                        month = d.getMonth() + 1,
+                        date = month + '-' + d.getDate() + '-' + d.getFullYear();
+                    this.ui.editor.val('created ' + date + '\n');
                 }
 
                 this.ui.editor.on('keyup',function(){
