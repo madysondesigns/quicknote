@@ -117,7 +117,7 @@
                 if(sessionStorage.getItem('quick_note')){
                     this.ui.editor.val(sessionStorage.getItem('quick_note'));
                 } else  {
-                    this.ui.editor.val('created ' + this.getFormattedDate() + '\n');
+                    this.ui.editor.val('Note from ' + this.getFormattedDate() + ':\n');
                 }
 
                 this.ui.editor.on('keyup',function(){
