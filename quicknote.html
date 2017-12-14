@@ -128,14 +128,19 @@
                     infoFooter: $('footer')
                 };
 
-                if(sessionStorage.getItem('quick_note')){
-                    this.ui.editor.val(sessionStorage.getItem('quick_note'));
+                var date = new Date(),
+                    noteId = 'quicknote_' + date.getTime();
+
+                this.setIdMetaTag(date);
+
+                if(localStorage.getItem(noteId)){
+                    this.ui.editor.val(localStorage.getItem(noteId));
                 } else  {
-                    this.ui.editor.val('Note from ' + this.getFormattedDate() + ':\n');
+                    this.ui.editor.val('Note from ' + this.getFormattedDate(date) + ':\n');
                 }
 
                 this.ui.editor.on('keyup',function(){
-                    sessionStorage.setItem('quick_note',$(this).val());
+                    localStorage.setItem(noteId, $(this).val());
                 });
 
                 this.ui.copyButton.click(function(){
@@ -158,7 +163,7 @@
             },
 
             clearEditor: function() {
-                sessionStorage.removeItem('quick_note');
+                localStorage.removeItem('quick_note');
                 this.ui.editor.val('').focus();
             },
 
@@ -166,13 +171,25 @@
                 this.ui.infoFooter.toggleClass('visible');
             },
 
-            getFormattedDate: function() {
-                var date = new Date(),
-                    mm = date.getMonth() + 1,
-                    dd = date.getDate(),
-                    yyyy = date.getFullYear();
+            getFormattedDate: function(date) {
+                return date.toDateString();
+            },
 
-                return mm + '-' + dd + '-' + yyyy;
+            getNoteId: function(date) {
+                return 'quicknote_' + date.getTime();
+            },
+
+            setIdMetaTag: function(date) {
+                var meta = document.querySelector('meta[name="quicknote"]');
+
+                if (!meta) {
+                    console.log('no meta');
+                    var meta = document.createElement('meta');
+                    meta.name='quicknote';
+                    meta.setAttribute('content', date.getTime());
+                } else {
+                    console.log('meta');
+                }
             }
         };
 
