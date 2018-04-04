@@ -127,20 +127,22 @@
     <script>
         var App = {
             init: function() {
+                this.date = new Date();
+
                 this.ui = {
                     editor: $('textarea'),
                     copyButton: $('.copy'),
                     clearButton: $('.clear'),
                     infoButton: $('.info'),
-                    infoFooter: $('footer')
+                    infoFooter: $('footer'),
+                    blankNoteCopy: 'Note from ' + this.getFormattedDate(this.date) + ':\n'
                 };
 
-                var date = new Date(),
-                    noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(date)),
+                var noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date)),
                     storageKey = 'quicknote_' + noteId,
-                    defaultCopy = localStorage.getItem(storageKey) || 'Note from ' + this.getFormattedDate(date) + ':\n';
+                    defaultCopy = localStorage.getItem(storageKey) || this.ui.blankNoteCopy;
 
-                this.ui.editor.val(defaultCopy);
+                this.ui.editor.val(defaultCopy).focus();
                 console.log('storage id:', storageKey);
 
                 this.ui.editor.on('keyup',function(){
@@ -166,9 +168,9 @@
                 document.execCommand('copy');
             },
 
-            clearEditor: function(storageKey) {
-                localStorage.removeItem(storageKey);
-                this.ui.editor.val('').focus();
+            clearEditor: function(key) {
+                localStorage.removeItem(key);
+                this.ui.editor.val(this.ui.blankNoteCopy).focus();
             },
 
             toggleInfo: function() {
