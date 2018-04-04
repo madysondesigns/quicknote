@@ -5,14 +5,21 @@
     <title>QuickNote</title>
     <link rel="shortcut icon" href="favicon.ico"/>
     <style>
-        @import url('https://fonts.googleapis.com/css?family=Muli:300');
+        @font-face {
+            font-family: system;
+            font-style: normal;
+            font-weight: 300;
+            src: local('.SFNSText-Light'), local('.HelveticaNeueDeskInterface-Light'), local('.LucidaGrandeUI'), local('Ubuntu Light'), local('Segoe UI Light'), local('Roboto-Light'), local('DroidSans'), local('Tahoma');
+        }
         html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             box-sizing: border-box;
             background-color: #f0f0f0;
             padding: 0;
-            font-family: 'Muli', sans-serif;
+            font-family: 'system', sans-serif;
             font-weight: 300;
-            font-size: 1.75em;
+            font-size: 1.5em;
             line-height: 1.5;
             overflow: hidden;
         }
@@ -36,9 +43,9 @@
             height: 100vh;
             padding: 1.7em 2em;
             background-color: #fff;
-            background-image: linear-gradient(lightcyan .05em, transparent .05em);
+            background-image: linear-gradient(#F9FAFB .05em, transparent .05em);
             background-size: 100% 1.5em;
-            background-position: left -0.06em;
+            background-position: left -0.125em;
             background-attachment: local;
         }
         nav {
@@ -120,31 +127,35 @@
     <script>
         var App = {
             init: function() {
+                this.date = new Date();
+
                 this.ui = {
                     editor: $('textarea'),
                     copyButton: $('.copy'),
                     clearButton: $('.clear'),
                     infoButton: $('.info'),
-                    infoFooter: $('footer')
+                    infoFooter: $('footer'),
+                    blankNoteCopy: 'Note from ' + this.getFormattedDate(this.date) + ':\n'
                 };
 
-                if(sessionStorage.getItem('quick_note')){
-                    this.ui.editor.val(sessionStorage.getItem('quick_note'));
-                } else  {
-                    this.ui.editor.val('Note from ' + this.getFormattedDate() + ':\n');
-                }
+                var noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date)),
+                    storageKey = 'quicknote_' + noteId,
+                    defaultCopy = localStorage.getItem(storageKey) || this.ui.blankNoteCopy;
+
+                this.ui.editor.val(defaultCopy).focus();
+                console.log('storage id:', storageKey);
 
                 this.ui.editor.on('keyup',function(){
-                    sessionStorage.setItem('quick_note',$(this).val());
+                    localStorage.setItem(storageKey, $(this).val());
                 });
 
                 this.ui.copyButton.click(function(){
                     this.copyEditor();
-                    this.clearEditor();
+                    this.clearEditor(storageKey);
                 }.bind(this));
 
                 this.ui.clearButton.click(function(){
-                    this.clearEditor();
+                    this.clearEditor(storageKey);
                 }.bind(this));
 
                 this.ui.infoButton.click(function(){
@@ -157,22 +168,35 @@
                 document.execCommand('copy');
             },
 
-            clearEditor: function() {
-                sessionStorage.removeItem('quick_note');
-                this.ui.editor.val('').focus();
+            clearEditor: function(key) {
+                localStorage.removeItem(key);
+                this.ui.editor.val(this.ui.blankNoteCopy).focus();
             },
 
             toggleInfo: function() {
                 this.ui.infoFooter.toggleClass('visible');
             },
 
-            getFormattedDate: function() {
-                var date = new Date(),
-                    mm = date.getMonth() + 1,
-                    dd = date.getDate(),
-                    yyyy = date.getFullYear();
+            getFormattedDate: function(date) {
+                return date.toDateString();
+            },
 
-                return mm + '-' + dd + '-' + yyyy;
+            getIdFromDate: function(date) {
+                return date.getTime();
+            },
+
+            setQueryString: function(key, val) {
+                var string = '?' + key + '=' + val;
+                history.pushState(null, null, string);
+                return val;
+            },
+
+            getQueryString: function(key) {
+                var params = window.location.search.slice(1),
+                    urlParams = new URLSearchParams(params),
+                    val = urlParams.get(key);
+
+                return val;
             }
         };
 
