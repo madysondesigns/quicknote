@@ -129,27 +129,24 @@
                 };
 
                 var date = new Date(),
-                    noteId = 'quicknote_' + date.getTime();
+                    noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(date)),
+                    storageKey = 'quicknote_' + noteId,
+                    defaultCopy = localStorage.getItem(storageKey) || 'Note from ' + this.getFormattedDate(date) + ':\n';
 
-                this.setIdMetaTag(date);
-
-                if(localStorage.getItem(noteId)){
-                    this.ui.editor.val(localStorage.getItem(noteId));
-                } else  {
-                    this.ui.editor.val('Note from ' + this.getFormattedDate(date) + ':\n');
-                }
+                this.ui.editor.val(defaultCopy);
+                console.log('storage id:', storageKey);
 
                 this.ui.editor.on('keyup',function(){
-                    localStorage.setItem(noteId, $(this).val());
+                    localStorage.setItem(storageKey, $(this).val());
                 });
 
                 this.ui.copyButton.click(function(){
                     this.copyEditor();
-                    this.clearEditor();
+                    this.clearEditor(storageKey);
                 }.bind(this));
 
                 this.ui.clearButton.click(function(){
-                    this.clearEditor();
+                    this.clearEditor(storageKey);
                 }.bind(this));
 
                 this.ui.infoButton.click(function(){
@@ -162,8 +159,8 @@
                 document.execCommand('copy');
             },
 
-            clearEditor: function() {
-                localStorage.removeItem('quick_note');
+            clearEditor: function(storageKey) {
+                localStorage.removeItem(storageKey);
                 this.ui.editor.val('').focus();
             },
 
@@ -175,21 +172,22 @@
                 return date.toDateString();
             },
 
-            getNoteId: function(date) {
-                return 'quicknote_' + date.getTime();
+            getIdFromDate: function(date) {
+                return date.getTime();
             },
 
-            setIdMetaTag: function(date) {
-                var meta = document.querySelector('meta[name="quicknote"]');
+            setQueryString: function(key, val) {
+                var string = '?' + key + '=' + val;
+                history.pushState(null, null, string);
+                return val;
+            },
 
-                if (!meta) {
-                    console.log('no meta');
-                    var meta = document.createElement('meta');
-                    meta.name='quicknote';
-                    meta.setAttribute('content', date.getTime());
-                } else {
-                    console.log('meta');
-                }
+            getQueryString: function(key) {
+                var params = window.location.search.slice(1),
+                    urlParams = new URLSearchParams(params),
+                    val = urlParams.get(key);
+
+                return val;
             }
         };
 
