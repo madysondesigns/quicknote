@@ -15,9 +15,9 @@ Option B: Set up a bookmark (bonus points for keyboard shortcut)
 
 Whenever you need to jot something down, open QuickNote and type away. Use the buttons to copy the contents of your note, or to clear the note and start new.
 
-Uses LocalStorage to save your note over accidental refreshes, tab closes, or browser restarts.
+Uses LocalStorage to save your note over accidental refreshes, tab closes, or browser restarts. (disclaimer: localStorage does not work for local files, i.e. `file://` URLs.)
 
-Inserts the date you created a note at the top. If you're like me, you leave notes open in browser tabs for far too long. 
+Inserts the date you created a note at the top. If you're like me, you leave notes open in browser tabs for far too long.
 
 ## About QuickNote
 
@@ -29,6 +29,4 @@ Questions or suggestions? Tweet me [@MadysonDesigns](http://twitter.com/madysond
 
 ## To Do:
 
-- [X] Base64 encode webfont to kill a request
-- [X] Add Favicon
-- [ ] Add a button to save direct to Evernote
+[Issues](https://github.com/madysondesigns/quicknote/issues)
