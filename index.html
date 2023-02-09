@@ -166,7 +166,19 @@
                 var noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date));
                 this.storageKey = 'quicknote_' + noteId;
 
-                this.ui = {
+                this.ui = this.getUIElements();
+                this.ui.noteEditor.addEventListener('keyup', this.updateNoteContent.bind(this));
+                this.ui.copyButton.addEventListener('click', this.copyNoteContent.bind(this));
+                this.ui.clearButton.addEventListener('click', this.clearNoteContent.bind(this));
+                this.ui.infoButton.addEventListener('click', this.toggleCredits.bind(this));
+
+                this.note = this.getNote();
+                this.note.title = this.setNoteHeader();
+                this.note.content = this.setNoteContent();
+            },
+
+            getUIElements: function() {
+                return {
                     noteTitle: document.getElementById('title'),
                     noteEditor: document.getElementById('editor'),
                     copyButton: document.getElementById('copy'),
@@ -174,34 +186,13 @@
                     infoButton: document.getElementById('info'),
                     infoFooter: document.getElementById('footer')
                 };
-
-                this.ui.noteEditor.addEventListener('keyup', function(){
-                    this.updateNoteContent();
-                }.bind(this));
-
-                this.ui.copyButton.addEventListener('click', function(){
-                    this.copyNoteContent();
-                    this.clearNoteContent();
-                }.bind(this));
-
-                this.ui.clearButton.addEventListener('click', function(){
-                    this.clearNoteContent();
-                }.bind(this));
-
-                this.ui.infoButton.addEventListener('click', function(){
-                    this.toggleCredits();
-                }.bind(this));
-
-                this.note = this.getNote();
-
-                this.note.title = this.setNoteHeader();
-                this.note.content = this.setNoteContent();
             },
 
             copyNoteContent: function() {
                 this.ui.noteEditor.focus();
                 this.ui.noteEditor.select();
                 document.execCommand('copy');
+                this.clearNoteContent();
             },
 
             clearNoteContent: function() {
@@ -230,7 +221,7 @@
             },
 
             setNoteContent: function() {
-                this.note.content = this.ui.noteEditor.value = this.getNote(this.storageKey).content || '';
+                this.note.content = this.ui.noteEditor.value = this.getNote().content || '';
                 this.ui.noteEditor.focus();
                 return this.note.content;
             },
