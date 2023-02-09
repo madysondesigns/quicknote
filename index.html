@@ -6,6 +6,14 @@
     <title>QuickNote</title>
     <link rel="shortcut icon" href="favicon.ico"/>
     <style>
+        :root {
+            --white: #fff;
+            --gray: #5e5e5e;
+            --gray-rgb: 94, 94, 94;
+            --blue: #2E7FD3;
+            --green: #7CE24B;
+            --red: #D0021B;
+        }
         @font-face {
             font-family: system;
             font-style: normal;
@@ -16,11 +24,12 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             box-sizing: border-box;
-            background-color: #f0f0f0;
+            background-color: var(--white);
             padding: 0;
             font-family: 'system', sans-serif;
             font-weight: 300;
             font-size: 1.2em;
+            color: var(--gray);
             line-height: 1.5;
             overflow: hidden;
         }
@@ -43,9 +52,9 @@
         textarea {
             width: 100vw;
             height: 100vh;
-            padding: 1.7em 2em;
-            background-color: #fff;
-            background-image: linear-gradient(#F9FAFB .05em, transparent .05em);
+            background-color: var(--white);
+            color: inherit;
+            background-image: linear-gradient(rgba(var(--gray-rgb), 0.07) .05em, transparent .05em);
             background-size: 100% 1.5em;
             background-position: left -0.125em;
             background-attachment: local;
@@ -53,39 +62,43 @@
         nav {
             margin: 0;
             position: fixed;
-            bottom: 0.25em;
-            right: 0.5em;
+            top: 1.5rem;
+            right: 1.5rem;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: space-around;
         }
         button {
-            width: 1.5em;
-            height: 1.5em;
-            margin-bottom: 0.25em;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0.5rem;
             padding: 0;
             font-size: 1.5em;
             line-height: 0;
             cursor: pointer;
             border-radius: 50%;
-            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s;
+            box-shadow: 0 1px 6px rgba(var(--gray-rgb), 0.45);
         }
         button:hover {
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 1px 4px rgba(var(--gray-rgb), 0.45);
+            transform: translateY(1px) scale(0.98);
         }
         svg {
-            height: 45%;
-            fill: white;
+            height: 55%;
+            fill: var(--white);
+        }
+        .share {
+            background-color: var(--blue);
         }
         .copy {
-            background-color: limegreen;
+            background-color: var(--green);
         }
         .clear {
-            background-color: crimson;
+            background-color: var(--red);
         }
         .info {
-            background-color: #2E7FD3;
+            background-color: var(--gray);
         }
         footer {
             font-size: 0.75rem;
@@ -114,20 +127,24 @@
     <main>
         <textarea autofocus="autofocus" id="editor"></textarea>
         <nav>
+            <button class="share" id="share">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6.269 22c-.6 0-1.127-.22-1.584-.662A2.13 2.13 0 0 1 4 19.748V9.354c0-.62.228-1.15.685-1.59.457-.441.985-.662 1.584-.662H9.27v2.252H6.269V19.75h11.438V9.353h-3V7.1h3c.63 0 1.17.22 1.62.662.449.44.673.97.673 1.59v10.396c0 .619-.224 1.149-.673 1.59-.45.44-.99.661-1.62.661H6.27Zm4.56-7.008V4.293L9.035 6.08l-1.63-1.578L11.963 0l4.586 4.502-1.608 1.578-1.82-1.787v10.699H10.83Z"/>
+                </svg>
+            </button>
             <button class="copy" id="copy">
-                <svg viewBox="0 0 6.7 7.3">
-                    <path d="M1.1 5.9H0V0h5v1.1H4.3V0.6H0.6v4.6h0.5V5.9zM6.7 1.4v5.9H1.6V1.4H6.7zM2.2 6.6h3.8V2H2.2V6.6zM3.2 3.6H5V3.3H3.2V3.6zM3.2 4.6H5V4.2H3.2V4.6zM3.2 5.5H5V5.2H3.2V5.5z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M5.144 22a2.03 2.03 0 0 1-1.514-.652C3.21 20.913 3 20.41 3 19.84V6.342h2.144V19.84h10.435V22H5.144Zm3.78-3.847c-.589 0-1.09-.217-1.503-.652a2.152 2.152 0 0 1-.619-1.53V4.16c0-.585.206-1.091.62-1.519A2.011 2.011 0 0 1 8.923 2h8.932c.59 0 1.094.214 1.514.641.42.428.63.934.63 1.519v11.81a2.13 2.13 0 0 1-.63 1.53 2.03 2.03 0 0 1-1.514.653H8.924Zm0-2.182h8.932V4.16H8.924v11.81Z"/>
                 </svg>
             </button>
             <button class="clear" id="clear">
-                <svg viewBox="0 0 7.3 7.3">
-                    <path d="M7.3 3.6c0 2-1.6 3.6-3.6 3.6C1.6 7.3 0 5.7 0 3.6 0 1.6 1.6 0 3.6 0 5.7 0 7.3 1.6 7.3 3.6zM5.1 5.8L1.5 2.2C1.2 2.6 1.1 3.1 1.1 3.6c0 1.4 1.1 2.6 2.6 2.6C4.2 6.2 4.7 6 5.1 5.8zM6.2 3.6c0-1.4-1.1-2.6-2.6-2.6 -0.5 0-1.1 0.2-1.5 0.5l3.6 3.6C6 4.7 6.2 4.2 6.2 3.6z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6.644 21c-.668 0-1.231-.226-1.688-.677-.456-.45-.685-1.007-.685-1.667V5.48H3V3.137h5.576V2h6.848v1.137H21V5.48h-1.271v13.175c0 .644-.233 1.196-.698 1.655a2.298 2.298 0 0 1-1.675.689H6.644ZM17.356 5.48H6.644v13.176h10.712V5.48ZM8.82 16.747h2.104v-9.38H8.82v9.38Zm4.305 0h2.103v-9.38h-2.103v9.38Z"/>
                 </svg>
             </button>
             <button class="info" id="info">
-                <svg viewBox="0 0 127 349">
-                    <path d="M126.536,313.42 L126.536,346.272 C126.536,347.655 125.413,348.766 124.054,348.766 L3.45,348.766 C2.076,348.766 0.968,347.649 0.968,346.272 L0.968,313.42 C0.968,312.048 2.082,310.938 3.45,310.938 L38.194,310.938 L38.194,135.831 L3.093,135.831 C1.718,135.831 0.625,134.72 0.625,133.357 L0.625,99.757 C0.625,98.377 1.725,97.278 3.093,97.278 L85.386,97.278 C86.757,97.278 87.868,98.383 87.868,99.757 L87.868,310.938 L124.054,310.938 C125.413,310.938 126.536,312.048 126.536,313.42 Z"></path>
-                    <circle cx="63" cy="30" r="30"></circle>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M11.014 16.976h2.09v-5.915h-2.09v5.915ZM12 9.371c.329 0 .599-.102.81-.305.211-.204.317-.47.317-.798 0-.345-.106-.623-.317-.834a1.097 1.097 0 0 0-.81-.317c-.344 0-.618.106-.821.317-.204.211-.306.481-.306.81 0 .329.106.599.317.81.211.211.481.317.81.317ZM12 22a9.769 9.769 0 0 1-3.897-.787 10.065 10.065 0 0 1-3.18-2.136c-.9-.9-1.612-1.96-2.137-3.18A9.769 9.769 0 0 1 2 12c0-1.393.262-2.695.786-3.908A10.14 10.14 0 0 1 4.934 4.91a9.98 9.98 0 0 1 3.18-2.136A9.812 9.812 0 0 1 12 2a9.89 9.89 0 0 1 3.897.775 9.938 9.938 0 0 1 3.192 2.136 9.94 9.94 0 0 1 2.136 3.192c.517 1.22.775 2.52.775 3.897 0 1.393-.258 2.692-.775 3.897a10.017 10.017 0 0 1-2.136 3.169 10.105 10.105 0 0 1-3.192 2.148A9.77 9.77 0 0 1 12 22Zm0-2.277c2.144 0 3.967-.751 5.47-2.254 1.502-1.502 2.253-3.325 2.253-5.469s-.747-3.967-2.242-5.47C15.987 5.029 14.16 4.278 12 4.278c-2.144 0-3.967.747-5.47 2.242C5.029 8.013 4.278 9.84 4.278 12c0 2.144.751 3.967 2.254 5.47 1.502 1.502 3.325 2.253 5.469 2.253Z"/>
                 </svg>
             </button>
         </nav>
