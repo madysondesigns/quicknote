@@ -163,69 +163,82 @@
             init: function() {
                 this.date = new Date();
 
+                var noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date));
+                this.storageKey = 'quicknote_' + noteId;
+
                 this.ui = {
                     noteTitle: document.getElementById('title'),
-                    editor: document.getElementById('editor'),
+                    noteEditor: document.getElementById('editor'),
                     copyButton: document.getElementById('copy'),
                     clearButton: document.getElementById('clear'),
                     infoButton: document.getElementById('info'),
                     infoFooter: document.getElementById('footer')
                 };
 
-                this.noteTitle = this.ui.noteTitle.innerText;
-
-                var noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date)),
-                    storageKey = 'quicknote_' + noteId;
-
-                this.setDefaultCopy(storageKey);
-
-                this.ui.editor.addEventListener('keyup', function(){
-                    if (this.storage()) {
-                        this.storage().setItem(storageKey, this.ui.editor.value);
-                    }
+                this.ui.noteEditor.addEventListener('keyup', function(){
+                    this.updateNoteContent();
                 }.bind(this));
 
                 this.ui.copyButton.addEventListener('click', function(){
-                    this.copyEditor();
-                    this.clearEditor(storageKey);
+                    this.copyNoteContent();
+                    this.clearNoteContent();
                 }.bind(this));
 
                 this.ui.clearButton.addEventListener('click', function(){
-                    this.clearEditor(storageKey);
+                    this.clearNoteContent();
                 }.bind(this));
 
                 this.ui.infoButton.addEventListener('click', function(){
                     this.toggleCredits();
                 }.bind(this));
+
+                this.note = this.getNote();
+
+                this.note.title = this.setNoteHeader();
+                this.note.content = this.setNoteContent();
             },
 
-            copyEditor: function() {
-                this.ui.editor.focus();
-                this.ui.editor.select();
+            copyNoteContent: function() {
+                this.ui.noteEditor.focus();
+                this.ui.noteEditor.select();
                 document.execCommand('copy');
             },
 
-            clearEditor: function(key) {
+            clearNoteContent: function() {
                 if (this.storage()) {
-                    this.storage().removeItem(key);
+                    this.storage().removeItem(this.storageKey);
                 }
-                this.setDefaultCopy();
+                this.setNoteContent();
             },
 
             toggleCredits: function() {
                 this.ui.infoFooter.classList.toggle('visible');
             },
 
-            setDefaultCopy: function(storageKey) {
-                var titleContent = 'Note from ' + this.getFormattedDate(this.date) + ':',
-                    noteContent = '';
-                if (this.storage()) {
-                    noteContent = this.storage().getItem(storageKey);
-                }
+            getNote: function() {
+                return this.storage() && this.storage().getItem(this.storageKey) ? JSON.parse(this.storage().getItem(this.storageKey)) : {};
+            },
 
-                this.ui.noteTitle.innerText = titleContent;
-                this.ui.editor.value = noteContent;
-                this.ui.editor.focus();
+            updateNote: function() {
+                if (this.storage()) {
+                    this.storage().setItem(this.storageKey, JSON.stringify(this.note));
+                }
+            },
+
+            setNoteHeader: function() {
+                return this.note.title = this.ui.noteTitle.innerText = 'Note from ' + this.getFormattedDate(this.date);
+            },
+
+            setNoteContent: function() {
+                this.note.content = this.ui.noteEditor.value = this.getNote(this.storageKey).content || '';
+                this.ui.noteEditor.focus();
+                return this.note.content;
+            },
+
+            updateNoteContent: function() {
+                this.note.title = this.ui.noteTitle.innerText;
+                this.note.content = this.ui.noteEditor.value;
+                this.updateNote();
             },
 
             getFormattedDate: function(date) {
