@@ -161,9 +161,9 @@
     <script>
         var App = {
             init: function() {
-                this.date = new Date();
+            this.date = new Date();
 
-                var noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date));
+            var noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date));
                 this.storageKey = 'quicknote_' + noteId;
 
                 this.ui = this.getUIElements();
@@ -174,7 +174,7 @@
 
                 this.note = this.getNote();
                 this.note.title = this.setNoteHeader();
-                this.note.content = this.setNoteContent();
+                this.note.text = this.setNoteContent();
             },
 
             getUIElements: function() {
@@ -199,6 +199,7 @@
                 if (this.storage()) {
                     this.storage().removeItem(this.storageKey);
                 }
+                this.note = {};
                 this.setNoteContent();
             },
 
@@ -221,14 +222,14 @@
             },
 
             setNoteContent: function() {
-                this.note.content = this.ui.noteEditor.value = this.getNote().content || '';
+                this.note.text = this.ui.noteEditor.value = this.getNote().text || '';
                 this.ui.noteEditor.focus();
-                return this.note.content;
+                return this.note.text;
             },
 
             updateNoteContent: function() {
                 this.note.title = this.ui.noteTitle.innerText;
-                this.note.content = this.ui.noteEditor.value;
+                this.note.text = this.ui.noteEditor.value;
                 this.updateNote();
             },
 
