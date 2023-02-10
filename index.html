@@ -157,14 +157,13 @@
             </button>
         </nav>
     </main>
-    <footer id="footer">Made with love by <a href="http://twitter.com/madysondesigns" target="_blank">@MadysonDesigns</a>. Download it on <a href="https://github.com/madysondesigns/quicknote" target="_blank">Github</a>.</footer>
+    <footer id="footer">Made with love by <a href="https://portfolio.madysondesigns.com" target="_blank">@MadysonDesigns</a>. Download it on <a href="https://github.com/madysondesigns/quicknote" target="_blank">Github</a>.</footer>
     <script>
-        var App = {
-            init: function() {
-            this.date = new Date();
+        const App = {
+            date: new Date(),
 
-            var noteId = this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date));
-                this.storageKey = 'quicknote_' + noteId;
+            init() {
+                this.storageKey = 'quicknote_' + this.noteID();
 
                 this.ui = this.getUIElements();
                 this.ui.noteEditor.addEventListener('keyup', this.updateNoteContent.bind(this));
@@ -177,7 +176,7 @@
                 this.note.text = this.setNoteContent();
             },
 
-            getUIElements: function() {
+            getUIElements() {
                 return {
                     noteTitle: document.getElementById('title'),
                     noteEditor: document.getElementById('editor'),
@@ -188,66 +187,66 @@
                 };
             },
 
-            copyNoteContent: function() {
+            copyNoteContent() {
                 this.ui.noteEditor.focus();
                 this.ui.noteEditor.select();
                 document.execCommand('copy');
                 this.clearNoteContent();
             },
 
-            clearNoteContent: function() {
-                if (this.storage()) {
-                    this.storage().removeItem(this.storageKey);
-                }
+            clearNoteContent() {
+                this.storage() && this.storage().removeItem(this.storageKey);
                 this.note = {};
                 this.setNoteContent();
             },
 
-            toggleCredits: function() {
+            toggleCredits() {
                 this.ui.infoFooter.classList.toggle('visible');
             },
 
-            getNote: function() {
+            noteID() {
+                return this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date));
+            },
+
+            getNote() {
                 return this.storage() && this.storage().getItem(this.storageKey) ? JSON.parse(this.storage().getItem(this.storageKey)) : {};
             },
 
-            updateNote: function() {
-                if (this.storage()) {
-                    this.storage().setItem(this.storageKey, JSON.stringify(this.note));
-                }
+            updateNote() {
+                this.storage() && this.storage().setItem(this.storageKey, JSON.stringify(this.note));
             },
 
-            setNoteHeader: function() {
+            setNoteHeader() {
                 return this.note.title = this.ui.noteTitle.innerText = 'Note from ' + this.getFormattedDate(this.date);
             },
 
-            setNoteContent: function() {
+            setNoteContent() {
                 this.note.text = this.ui.noteEditor.value = this.getNote().text || '';
                 this.ui.noteEditor.focus();
                 return this.note.text;
             },
 
-            updateNoteContent: function() {
+            updateNoteContent() {
                 this.note.title = this.ui.noteTitle.innerText;
                 this.note.text = this.ui.noteEditor.value;
                 this.updateNote();
             },
 
-            getFormattedDate: function(date) {
+            getFormattedDate(date) {
                 return date.toDateString();
             },
 
-            getIdFromDate: function(date) {
+            getIdFromDate(date) {
                 return date.getTime();
             },
 
-            setQueryString: function(key, val) {
+            setQueryString(key, val) {
                 var string = '?' + key + '=' + val;
                 history.pushState(null, null, string);
                 return val;
             },
 
-            getQueryString: function(key) {
+            getQueryString(key) {
                 var params = window.location.search.slice(1),
                     urlParams = new URLSearchParams(params),
                     val = urlParams.get(key);
@@ -255,7 +254,7 @@
                 return val;
             },
 
-            storage: function() {
+            storage() {
                 var storage, fail, uid;
                 try {
                     uid = this.getIdFromDate(this.date);
