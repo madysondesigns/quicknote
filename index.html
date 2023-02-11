@@ -159,77 +159,74 @@
     </main>
     <footer id="footer">Made with love by <a href="https://portfolio.madysondesigns.com" target="_blank">@MadysonDesigns</a>. Download it on <a href="https://github.com/madysondesigns/quicknote" target="_blank">Github</a>.</footer>
     <script>
-        const App = {
+        var App = {
             date: new Date(),
-
+            ui: {
+                noteTitle: document.getElementById('title'),
+                noteEditor: document.getElementById('editor'),
+                copyButton: document.getElementById('copy'),
+                clearButton: document.getElementById('clear'),
+                infoButton: document.getElementById('info'),
+                infoFooter: document.getElementById('footer')
+            },
             init() {
-                this.storageKey = 'quicknote_' + this.noteID();
+                this.storageKey = 'quicknote_' + this.getNoteID();
 
-                this.ui = this.getUIElements();
-                this.ui.noteEditor.addEventListener('keyup', this.updateNoteContent.bind(this));
-                this.ui.copyButton.addEventListener('click', this.copyNoteContent.bind(this));
-                this.ui.clearButton.addEventListener('click', this.clearNoteContent.bind(this));
-                this.ui.infoButton.addEventListener('click', this.toggleCredits.bind(this));
+                this.ui.copyButton.addEventListener('click', this.onCopyNoteContent.bind(this));
+                this.ui.clearButton.addEventListener('click', this.onClearNoteContent.bind(this));
+                this.ui.infoButton.addEventListener('click', this.onToggleCredits.bind(this));
+                this.ui.noteEditor.addEventListener('input', this.onEditNoteContent.bind(this));
 
-                this.note = this.getNote();
-                this.note.title = this.setNoteHeader();
-                this.note.text = this.setNoteContent();
+                this.note = this.getNoteContents();
+                this.renderNote();
             },
 
-            getUIElements() {
-                return {
-                    noteTitle: document.getElementById('title'),
-                    noteEditor: document.getElementById('editor'),
-                    copyButton: document.getElementById('copy'),
-                    clearButton: document.getElementById('clear'),
-                    infoButton: document.getElementById('info'),
-                    infoFooter: document.getElementById('footer')
-                };
-            },
-
-            copyNoteContent() {
-                this.ui.noteEditor.focus();
-                this.ui.noteEditor.select();
-                document.execCommand('copy');
-                this.clearNoteContent();
-            },
-
-            clearNoteContent() {
-                this.storage() && this.storage().removeItem(this.storageKey);
-                this.note = {};
-                this.setNoteContent();
-            },
-
-            toggleCredits() {
-                this.ui.infoFooter.classList.toggle('visible');
-            },
-
-            noteID() {
+            getNoteID() {
                 return this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date));
             },
 
-            getNote() {
-                return this.storage() && this.storage().getItem(this.storageKey) ? JSON.parse(this.storage().getItem(this.storageKey)) : {};
-            },
-
-            updateNote() {
-                this.storage() && this.storage().setItem(this.storageKey, JSON.stringify(this.note));
-            },
-
-            setNoteHeader() {
-                return this.note.title = this.ui.noteTitle.innerText = 'Note from ' + this.getFormattedDate(this.date);
-            },
-
-            setNoteContent() {
-                this.note.text = this.ui.noteEditor.value = this.getNote().text || '';
+            onCopyNoteContent() {
                 this.ui.noteEditor.focus();
-                return this.note.text;
+                this.ui.noteEditor.select();
+                document.execCommand('copy');
+                this.onClearNoteContent();
             },
 
-            updateNoteContent() {
+            onClearNoteContent() {
+                this.storage() && this.storage().removeItem(this.storageKey);
+                this.createBlankNote();
+                this.renderNote();
+            },
+
+            onToggleCredits() {
+                this.ui.infoFooter.classList.toggle('visible');
+            },
+
+            onEditNoteContent() {
                 this.note.title = this.ui.noteTitle.innerText;
                 this.note.text = this.ui.noteEditor.value;
-                this.updateNote();
+                this.updateStoredNote();
+            },
+
+            createBlankNote() {
+                return {
+                    title: 'Note from ' + this.getFormattedDate(this.date),
+                    text: ''
+                }
+            },
+
+            getNoteContents() {
+                return this.storage() && this.storage().getItem(this.storageKey) ? JSON.parse(this.storage().getItem(this.storageKey)) : this.createBlankNote();
+            },
+
+            renderNote() {
+                this.ui.noteTitle.innerText = this.note.title;
+                this.ui.noteEditor.value = this.note.text;
+                this.ui.noteEditor.focus();
+            },
+
+            updateStoredNote() {
+                this.storage() && this.storage().setItem(this.storageKey, JSON.stringify(this.note));
             },
 
             getFormattedDate(date) {
