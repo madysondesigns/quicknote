@@ -7,33 +7,32 @@
     <link rel="shortcut icon" href="favicon.ico"/>
     <style>
         :root {
-            --white: #fff;
-            --gray: #5e5e5e;
-            --gray-rgb: 94, 94, 94;
+            --bg: #fff;
+            --content: #5e5e64;
+            --content-rgb: 94, 94, 100;
             --blue: #2E7FD3;
             --green: #7CE24B;
             --red: #D0021B;
+            --icon: #fff;
+            --shadow: rgba(0, 0, 0, 0.2);
         }
-        @font-face {
-            font-family: system;
-            font-style: normal;
-            font-weight: 300;
-            src: local('.SFNSText-Light'), local('.HelveticaNeueDeskInterface-Light'), local('.LucidaGrandeUI'), local('Ubuntu Light'), local('Segoe UI Light'), local('Roboto-Light'), local('DroidSans'), local('Tahoma');
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #5e5e64;
+                --content: #fafafa;
+                --content-rgb: 250, 250, 250;
+            }
         }
         html {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             box-sizing: border-box;
-            background-color: var(--white);
-            padding: 0;
-            font-family: 'system', sans-serif;
-            font-weight: 300;
-            font-size: 1.2em;
-            color: var(--gray);
+            font-family: system-ui;
+            font-weight: 400;
+            background-color: var(--bg);
+            color: var(--content);
             line-height: 1.5;
-            overflow: hidden;
         }
-
         *, *:before, *:after {
             box-sizing: inherit;
             font-family: inherit;
@@ -42,58 +41,61 @@
             line-height: inherit
         }
         body {
+            width: 100vw;
+            height: 100vh;
             margin: 0;
-            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            padding-bottom: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 0.75rem var(--shadow);
         }
         h1 {
-            position: absolute;
-            top: 1.7rem;
-            left: 2rem;
             margin: 0;
+            padding: 2rem 2rem 0;
+            line-height: 1;
         }
         textarea, button {
             border: none;
             outline: none;
         }
         textarea {
-            width: 100vw;
-            height: 100vh;
-            padding: 3.2rem 2rem 1.7rem;
-            background-color: var(--white);
-            color: inherit;
-            background-image: linear-gradient(rgba(var(--gray-rgb), 0.07) .05em, transparent .05em);
-            background-size: 100% 1.5em;
-            background-position: left -0.125em;
+            resize: none;
+            flex: 1;
+            padding: 0.25rem 2rem;
+            background-color: transparent;
+            background-image: linear-gradient(rgba(var(--content-rgb), 0.07) .05rem, transparent .05rem);
+            background-size: 100% 1.5rem;
             background-attachment: local;
+            color: inherit;
         }
         nav {
-            margin: 0;
+            width: 2rem;
             position: fixed;
-            top: 1.5rem;
-            right: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
+            top: 1rem;
+            right: 0;
         }
         button {
-            width: 1.5rem;
-            height: 1.5rem;
-            margin-right: 0.5rem;
-            padding: 0;
-            font-size: 1.5em;
+            width: 2.2rem;
+            height: 2rem;
+            border-radius: 15% 0 0 15%;
+            box-shadow: 0 1px 4px var(--shadow);
+            padding-right: 0.5rem;
+            margin-bottom: 0.5rem;
             line-height: 0;
             cursor: pointer;
-            border-radius: 50%;
             transition: transform 0.2s;
-            box-shadow: 0 1px 6px rgba(var(--gray-rgb), 0.45);
         }
         button:hover {
-            box-shadow: 0 1px 4px rgba(var(--gray-rgb), 0.45);
-            transform: translateY(1px) scale(0.98);
+            transform: translateX(-0.2rem);
         }
         svg {
-            height: 55%;
-            fill: var(--white);
+            height: 60%;
+            fill: var(--icon);
         }
         .share {
             background-color: var(--blue);
@@ -104,25 +106,15 @@
         .clear {
             background-color: var(--red);
         }
-        .info {
-            background-color: var(--gray);
-        }
         footer {
-            font-size: 0.75rem;
-            margin-left: 3em;
-            position: fixed;
-            bottom: 1.25rem;
-            right: 3rem;
-            display: none;
+            background-color: rgba(var(--content-rgb), 0.1);
+            padding: 0.25rem 2rem;
+            text-align: right;
         }
-
-        footer.visible {
-            display: initial;
+        footer, footer a {
+            font-size: 0.5rem;
+            color: rgba(var(--content-rgb), 0.5);
         }
-        footer, a {
-            color: #aaa;
-        }
-
         @media screen and (min-width: 30em) {
             html {
                 font-size: 1.5em;
@@ -150,14 +142,9 @@
                     <path d="M6.644 21c-.668 0-1.231-.226-1.688-.677-.456-.45-.685-1.007-.685-1.667V5.48H3V3.137h5.576V2h6.848v1.137H21V5.48h-1.271v13.175c0 .644-.233 1.196-.698 1.655a2.298 2.298 0 0 1-1.675.689H6.644ZM17.356 5.48H6.644v13.176h10.712V5.48ZM8.82 16.747h2.104v-9.38H8.82v9.38Zm4.305 0h2.103v-9.38h-2.103v9.38Z"/>
                 </svg>
             </button>
-            <button class="info" id="info">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M11.014 16.976h2.09v-5.915h-2.09v5.915ZM12 9.371c.329 0 .599-.102.81-.305.211-.204.317-.47.317-.798 0-.345-.106-.623-.317-.834a1.097 1.097 0 0 0-.81-.317c-.344 0-.618.106-.821.317-.204.211-.306.481-.306.81 0 .329.106.599.317.81.211.211.481.317.81.317ZM12 22a9.769 9.769 0 0 1-3.897-.787 10.065 10.065 0 0 1-3.18-2.136c-.9-.9-1.612-1.96-2.137-3.18A9.769 9.769 0 0 1 2 12c0-1.393.262-2.695.786-3.908A10.14 10.14 0 0 1 4.934 4.91a9.98 9.98 0 0 1 3.18-2.136A9.812 9.812 0 0 1 12 2a9.89 9.89 0 0 1 3.897.775 9.938 9.938 0 0 1 3.192 2.136 9.94 9.94 0 0 1 2.136 3.192c.517 1.22.775 2.52.775 3.897 0 1.393-.258 2.692-.775 3.897a10.017 10.017 0 0 1-2.136 3.169 10.105 10.105 0 0 1-3.192 2.148A9.77 9.77 0 0 1 12 22Zm0-2.277c2.144 0 3.967-.751 5.47-2.254 1.502-1.502 2.253-3.325 2.253-5.469s-.747-3.967-2.242-5.47C15.987 5.029 14.16 4.278 12 4.278c-2.144 0-3.967.747-5.47 2.242C5.029 8.013 4.278 9.84 4.278 12c0 2.144.751 3.967 2.254 5.47 1.502 1.502 3.325 2.253 5.469 2.253Z"/>
-                </svg>
-            </button>
         </nav>
     </main>
-    <footer id="footer">Made with love by <a href="https://portfolio.madysondesigns.com" target="_blank">@MadysonDesigns</a>. Download it on <a href="https://github.com/madysondesigns/quicknote" target="_blank">Github</a>.</footer>
+    <footer id="footer">Made with love by <a href="https://portfolio.madysondesigns.com" target="_blank">@MadysonDesigns</a>. Source on <a href="https://github.com/madysondesigns/quicknote" target="_blank">Github</a>.</footer>
     <script>
         var App = {
             date: new Date(),
@@ -165,16 +152,13 @@
                 noteTitle: document.getElementById('title'),
                 noteEditor: document.getElementById('editor'),
                 copyButton: document.getElementById('copy'),
-                clearButton: document.getElementById('clear'),
-                infoButton: document.getElementById('info'),
-                infoFooter: document.getElementById('footer')
+                clearButton: document.getElementById('clear')
             },
             init() {
                 this.storageKey = 'quicknote_' + this.getNoteID();
 
                 this.ui.copyButton.addEventListener('click', this.onCopyNoteContent.bind(this));
                 this.ui.clearButton.addEventListener('click', this.onClearNoteContent.bind(this));
-                this.ui.infoButton.addEventListener('click', this.onToggleCredits.bind(this));
                 this.ui.noteEditor.addEventListener('input', this.onEditNoteContent.bind(this));
 
                 this.note = this.getNoteContents();
@@ -196,10 +180,6 @@
                 this.storage() && this.storage().removeItem(this.storageKey);
                 this.createBlankNote();
                 this.renderNote();
-            },
-
-            onToggleCredits() {
-                this.ui.infoFooter.classList.toggle('visible');
             },
 
             onEditNoteContent() {
