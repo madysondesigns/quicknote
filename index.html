@@ -24,24 +24,18 @@
             }
         }
         html {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            box-sizing: border-box;
             font-family: system-ui;
-            font-weight: 400;
+            font-weight: 300;
             background-color: var(--bg);
             color: var(--content);
             line-height: 1.5;
         }
         *, *:before, *:after {
-            box-sizing: inherit;
-            font-family: inherit;
             font-weight: inherit;
             font-size: inherit;
             line-height: inherit
         }
         body {
-            width: 100vw;
             height: 100vh;
             margin: 0;
             display: flex;
@@ -67,10 +61,7 @@
             resize: none;
             flex: 1;
             padding: 0.25rem 2rem;
-            background-color: transparent;
-            background-image: linear-gradient(rgba(var(--content-rgb), 0.07) .05rem, transparent .05rem);
-            background-size: 100% 1.5rem;
-            background-attachment: local;
+            background: transparent linear-gradient(rgba(var(--content-rgb), 0.07) .05rem, transparent .05rem) left top / 100% 1.5rem local;
             color: inherit;
         }
         nav {
@@ -151,12 +142,14 @@
             ui: {
                 noteTitle: document.getElementById('title'),
                 noteEditor: document.getElementById('editor'),
+                shareButton: document.getElementById('share'),
                 copyButton: document.getElementById('copy'),
                 clearButton: document.getElementById('clear')
             },
             init() {
                 this.storageKey = 'quicknote_' + this.getNoteID();
 
+                this.ui.shareButton.addEventListener('click', this.onShareNoteContent.bind(this));
                 this.ui.copyButton.addEventListener('click', this.onCopyNoteContent.bind(this));
                 this.ui.clearButton.addEventListener('click', this.onClearNoteContent.bind(this));
                 this.ui.noteEditor.addEventListener('input', this.onEditNoteContent.bind(this));
@@ -164,65 +157,57 @@
                 this.note = this.getNoteContents();
                 this.renderNote();
             },
-
             getNoteID() {
-                return this.getQueryString('id') || this.setQueryString('id', this.getIdFromDate(this.date));
+                return this.getQueryString('id') || this.setQueryString('id', this.date.getTime());
             },
-
+            async onShareNoteContent() {
+                try {
+                    await navigator.share({
+                        files: [new File([JSON.stringify(this.note, null, 2)], this.storageKey + '.json')]
+                    });
+                    console.log('Shared!');
+                } catch (error) {
+                    console.log('Error sharing', error)
+                }
+            },
             onCopyNoteContent() {
                 this.ui.noteEditor.focus();
                 this.ui.noteEditor.select();
                 document.execCommand('copy');
                 this.onClearNoteContent();
             },
-
             onClearNoteContent() {
                 this.storage() && this.storage().removeItem(this.storageKey);
-                this.createBlankNote();
+                this.note = this.getBlankNote();
                 this.renderNote();
             },
-
             onEditNoteContent() {
                 this.note.title = this.ui.noteTitle.innerText;
                 this.note.text = this.ui.noteEditor.value;
                 this.updateStoredNote();
             },
-
-            createBlankNote() {
+            getBlankNote() {
                 return {
-                    title: 'Note from ' + this.getFormattedDate(this.date),
+                    title: 'Note from ' + this.date.toDateString(),
                     text: ''
                 }
             },
-
             getNoteContents() {
-                return this.storage() && this.storage().getItem(this.storageKey) ? JSON.parse(this.storage().getItem(this.storageKey)) : this.createBlankNote();
+                return this.storage() && this.storage().getItem(this.storageKey) ? JSON.parse(this.storage().getItem(this.storageKey)) : this.getBlankNote();
             },
-
             renderNote() {
                 this.ui.noteTitle.innerText = this.note.title;
                 this.ui.noteEditor.value = this.note.text;
                 this.ui.noteEditor.focus();
             },
-
             updateStoredNote() {
                 this.storage() && this.storage().setItem(this.storageKey, JSON.stringify(this.note));
             },
-
-            getFormattedDate(date) {
-                return date.toDateString();
-            },
-
-            getIdFromDate(date) {
-                return date.getTime();
-            },
-
             setQueryString(key, val) {
                 var string = '?' + key + '=' + val;
                 history.pushState(null, null, string);
                 return val;
             },
-
             getQueryString(key) {
                 var params = window.location.search.slice(1),
                     urlParams = new URLSearchParams(params),
@@ -230,11 +215,10 @@
 
                 return val;
             },
-
             storage() {
                 var storage, fail, uid;
                 try {
-                    uid = this.getIdFromDate(this.date);
+                    uid = this.date;
                     (storage = window.localStorage).setItem(uid, uid);
                     fail = storage.getItem(uid) != uid;
                     storage.removeItem(uid);
