@@ -75,7 +75,7 @@
             height: 2rem;
             border-radius: 15% 0 0 15%;
             box-shadow: 0 1px 4px var(--shadow);
-            padding-right: 0.5rem;
+            padding: 0 0.5rem 0 0.25rem;
             margin-bottom: 0.5rem;
             line-height: 0;
             cursor: pointer;
@@ -85,14 +85,14 @@
             transform: translateX(-0.2rem);
         }
         svg {
-            height: 60%;
+            height: 62.5%;
             fill: var(--icon);
-        }
-        .share {
-            background-color: var(--blue);
         }
         .copy {
             background-color: var(--green);
+        }
+        .share {
+            background-color: var(--blue);
         }
         .clear {
             background-color: var(--red);
@@ -118,14 +118,14 @@
         <h1 id="title">Note from...</h1>
         <textarea autofocus="autofocus" id="editor"></textarea>
         <nav>
-            <button class="share" id="share">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M6.269 22c-.6 0-1.127-.22-1.584-.662A2.13 2.13 0 0 1 4 19.748V9.354c0-.62.228-1.15.685-1.59.457-.441.985-.662 1.584-.662H9.27v2.252H6.269V19.75h11.438V9.353h-3V7.1h3c.63 0 1.17.22 1.62.662.449.44.673.97.673 1.59v10.396c0 .619-.224 1.149-.673 1.59-.45.44-.99.661-1.62.661H6.27Zm4.56-7.008V4.293L9.035 6.08l-1.63-1.578L11.963 0l4.586 4.502-1.608 1.578-1.82-1.787v10.699H10.83Z"/>
-                </svg>
-            </button>
             <button class="copy" id="copy">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M5.144 22a2.03 2.03 0 0 1-1.514-.652C3.21 20.913 3 20.41 3 19.84V6.342h2.144V19.84h10.435V22H5.144Zm3.78-3.847c-.589 0-1.09-.217-1.503-.652a2.152 2.152 0 0 1-.619-1.53V4.16c0-.585.206-1.091.62-1.519A2.011 2.011 0 0 1 8.923 2h8.932c.59 0 1.094.214 1.514.641.42.428.63.934.63 1.519v11.81a2.13 2.13 0 0 1-.63 1.53 2.03 2.03 0 0 1-1.514.653H8.924Zm0-2.182h8.932V4.16H8.924v11.81Z"/>
+                </svg>
+            </button>
+            <button class="share" id="share">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M10.875 4.275v11.95H13.1V4.275l1.875 1.875 1.575-1.575L11.975 0 7.4 4.575 9 6.15l1.875-1.875Zm3.46 17.461v2.014h2.932c.8 0 1.482-.271 2.043-.814a2.663 2.663 0 0 0 .843-1.992V19.36c0-.361.123-.663.37-.904.246-.242.554-.362.923-.362H22v-3.665h-.554c-.37 0-.677-.121-.924-.363a1.214 1.214 0 0 1-.37-.904v-1.584c0-.785-.28-1.452-.842-2.002a2.81 2.81 0 0 0-2.043-.826H15v2.036h1.782c.37 0 .678.12.924.362.246.241.369.543.369.905v1.584c0 .588.177 1.12.531 1.595.354.475.831.765 1.431.87v.182a2.898 2.898 0 0 0-1.42 1.007 2.568 2.568 0 0 0-.542 1.594v1.561c0 .378-.123.687-.369.928a1.268 1.268 0 0 1-.924.362h-2.447Zm-9.657 1.2c.554.543 1.231.814 2.032.814h2.932v-2.014H7.218c-.385 0-.7-.12-.947-.362-.246-.241-.37-.55-.37-.927v-1.562c0-.588-.18-1.12-.542-1.594a2.898 2.898 0 0 0-1.42-1.007v-.181a2.19 2.19 0 0 0 1.431-.871 2.602 2.602 0 0 0 .532-1.595v-1.584c0-.362.123-.664.369-.905s.562-.362.947-.362H9V8.75H6.71c-.8 0-1.478.275-2.032.826a2.716 2.716 0 0 0-.831 2.002v1.584c0 .362-.127.663-.38.904a1.278 1.278 0 0 1-.913.363H2v3.665h.554c.354 0 .658.12.912.362.254.241.38.543.38.904v1.584c0 .785.278 1.448.832 1.992Z"/>
                 </svg>
             </button>
             <button class="clear" id="clear">
@@ -142,15 +142,15 @@
             ui: {
                 noteTitle: document.getElementById('title'),
                 noteEditor: document.getElementById('editor'),
-                shareButton: document.getElementById('share'),
                 copyButton: document.getElementById('copy'),
+                shareButton: document.getElementById('share'),
                 clearButton: document.getElementById('clear')
             },
             init() {
                 this.storageKey = 'quicknote_' + this.getNoteID();
 
-                this.ui.shareButton.addEventListener('click', this.onShareNoteContent.bind(this));
                 this.ui.copyButton.addEventListener('click', this.onCopyNoteContent.bind(this));
+                this.ui.shareButton.addEventListener('click', this.onShareNoteContent.bind(this));
                 this.ui.clearButton.addEventListener('click', this.onClearNoteContent.bind(this));
                 this.ui.noteEditor.addEventListener('input', this.onEditNoteContent.bind(this));
 
@@ -159,6 +159,15 @@
             },
             getNoteID() {
                 return this.getQueryString('id') || this.setQueryString('id', this.date.getTime());
+            },
+            async onCopyNoteContent() {
+                let noteText = [this.note.title, this.note.text].join("\r\n");
+                try {
+                    await navigator.clipboard.writeText(noteText);
+                    console.log('Copied!');
+                } catch (error) {
+                    console.log('Error copying', error)
+                }
             },
             async onShareNoteContent() {
                 try {
@@ -169,12 +178,6 @@
                 } catch (error) {
                     console.log('Error sharing', error)
                 }
-            },
-            onCopyNoteContent() {
-                this.ui.noteEditor.focus();
-                this.ui.noteEditor.select();
-                document.execCommand('copy');
-                this.onClearNoteContent();
             },
             onClearNoteContent() {
                 this.storage() && this.storage().removeItem(this.storageKey);
