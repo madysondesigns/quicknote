@@ -1,32 +1,43 @@
 # QuickNote
 
-A simple note that lives in a new browser tab. I typically am already in a browser or have it available, so that's where I want to jot something down quickly.
+A simple text field in a self-contained HTML page that's quicker than a Post-it note. I typically live in the browser, which makes it the most efficient tool to capture what's on my mind.
 
-![](https://raw.githubusercontent.com/swhinnem/quicknote/master/screenshot.png)
+![](screenshot.png)
 
-## Installing QuickNote
+## Setting up QuickNote
 
 Copy the HTML file wherever you want it. Locally, on your server, wherever. It's just the one file (favicon optional). #simplicity
 
+You can open Quicknote even faster by:
+- **Option A:** Setting it as your browser's new tab page
+- **Option B:** Bookmarking it (Optional: add a custom keyboard shortcut)
+- **Option C:** Adding a [site search shortcut](https://support.google.com/chrome/answer/95426) (Chrome-based browsers only)
+
 ## Using QuickNote
 
-Option A: Set QuickNote as your browser's new tab page.
-Option B: Set up a bookmark (bonus points for keyboard shortcut)
+**Whenever you need to jot something down, open QuickNote and just start typing.**
 
-Whenever you need to jot something down, open QuickNote and type away. Use the buttons to copy the contents of your note, or to clear the note and start new.
+The first line automatically populates with a header including the date the note was created. LocalStorage saves your note in case you accidentally refresh, close the tab, or your browser crashes.
 
-Uses LocalStorage to save your note over accidental refreshes, tab closes, or browser restarts. (disclaimer: localStorage does not work for local files, i.e. `file://` URLs.)
+Use the Copy or Share buttons to move your note to your PKMS of choice:
+- Copy drops the note title and text on your clipboard so you can paste it anywhere.
+- Share converts the note to JSON and triggers the browser's native Share Sheet for more advanced sharing options.
+  - The JSON object includes separate `title` and `text` fields
+  - It should work with any sharing extension that can handle JSON
+  - I'm a fan of Apple Shortcuts since it gives you the flexibility to do almost anything with your note – [here's an example shortcut](https://www.icloud.com/shortcuts/4a9b13aaa0d541199fe17cc064c4ba68) for inspiration!
 
-Inserts the date you created a note at the top. If you're like me, you leave notes open in browser tabs for far too long.
+Once you've saved your note for posterity, use the Clear button to create a new blank note!
 
 ## About QuickNote
 
-I wrote this quickly so I can give up Post-It notes. I hate Post-It notes.
+Basic text input and editing should look and work fairly consistent on any browser or platform.
 
-Feel free to use or modify as you see fit (GPL). Let me know how you use it!
+Full functionality assumes you're using a modern browser that supports current web best practices ([Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage_API#browser_compatibility), [Clipboard](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API#browser_compatibility) and [Web Share](https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API#browser_compatibility)). Sorry [IE](https://img.buzzfeed.com/buzzfeed-static/static/2019-07/24/10/asset/d281f80a1f45/anigif_sub-buzz-2733-1563964464-1.gif), you're out of luck.
 
-Questions or suggestions? Tweet me [@MadysonDesigns](http://twitter.com/madysondesigns) or email sarah@madysondesigns.com.
+If you're using a browser/device that's less than a couple years old, Quicknote should work just fine, except:
+- Share does not work in Chrome-based browsers on MacOS – Use Safari
+- These APIs are only available in [secure contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts) – over HTTPS or from local resources
 
-## To Do:
+Feel free to use or modify QuickNote as you see fit (GPL).
 
-[Issues](https://github.com/madysondesigns/quicknote/issues)
+Finding QuickNote useful? Have a questions or suggestion? Let me know with an [issue](https://github.com/madysondesigns/quicknote/issues)!
