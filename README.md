@@ -6,7 +6,7 @@ A simple text field in a self-contained HTML page that's quicker than a Post-it 
 
 ## Setting up QuickNote
 
-Copy the HTML file wherever you want it. Locally, on your server, wherever. It's just the one file (favicon optional). #simplicity
+Copy the HTML file wherever you want it. Locally, on your server, wherever. It's just the one file. #simplicity
 
 You can open Quicknote even faster by:
 - **Option A:** Setting it as your browser's new tab page
@@ -37,6 +37,24 @@ Full functionality assumes you're using a modern browser that supports current w
 If you're using a browser/device that's less than a couple years old, Quicknote should work just fine, except:
 - Share does not work in Chrome-based browsers on MacOS – Use Safari
 - These APIs are only available in [secure contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts) – over HTTPS or from local resources
+
+**#itscomplicated: Cross-platform favicons**
+
+Surprisingly, there is still no (simple) canonical way to approach favicons in 2023.
+
+QuickNote's `<link rel="icon">` tag uses an embedded SVG that works for most browsers without an additional HTTP request. I've also included the favicon in a couple other formats to support wacky caveats (ahem, Safari):
+- Safari does not support SVG favicons at all (wat.) – Your options are to drop the included `favicon.ico` file in your site root (no link tag needed) or to include a second link for PNG format:
+
+    `<link rel="icon" type="image/png" sizes="any" href="/favicon.png">`
+- Safari uses a separate icon for pinned tabs – you can add another link to support this:
+
+    `<link rel="mask-icon" href="/safaricon.svg" color="#207EDF">`
+- Old and niche browsers are a mixed bag – `favicon.ico` in your site root will probably work for many of these in addition to Safari, but YMMV
+- Pretty home screen icons on mobile devices require about a dozen extra files, a manifest, and a bunch more requests – this isn't a relevant use case for me so I didn't include these
+
+If you'd like to support more [scenarios](https://dev.to/masakudamatsu/favicon-nightmare-how-to-maintain-sanity-3al7), feel free to use the included images to [generate](https://realfavicongenerator.net/) more versions.
+
+## Usage & feedback
 
 Feel free to use or modify QuickNote as you see fit (GPL).
 
