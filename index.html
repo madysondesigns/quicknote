@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>QuickNote</title>
-    <link rel="shortcut icon" href="favicon.ico"/>
+    <link rel="icon" sizes="any" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHFSURBVHgBxZfvcYJAEMXf3ViAHeQYGzAdYAfpwHSQ+D0jh5PvJh2YCpIOYgehAy4dpIAMZA/BgOJ47CG+GUTWP/e7t3t7IFBK6TREjjkdob3EZZRAFMer0UFiA6IYfPkdAZnGsNJmFcSCZj5Fhi9cQxIzSZY/4FrK5XxEANN6jGwRuKDUMs3/AbJQ0mkKT1Eax+opvUN3KYk+lGONEVjyBihWUI57evsDhrwAdrbvl28ChtgAlHdFv15X19RYhnPAFh31jk9UHVPwZs8GoJxHaLZr1uxZAGXRPR78jQFTnRbPrm237RmZogZzHJfYUG0Y9AFQFF2G99YPdzto2IgJGBpc44zcU1AvOhcJzFy+5gSgonTdaXBk8TnrKzmlwMTBgk6Lwzjl/YVOzd3UWh9PNBzl14oFblpiTtb3AwCMm5fu1vcDkNcArPUrd+v7ARC1wuxofaWjImzcsdR0eKdU7gelA9b6iQFD1oEYPKnilWn9HoBmppkQ4xKAZf0ewL6wIH4tQPeqbwXgQvhYfwTQFcI8Bx/wFd3ItD4DlFtrhEtLyM3Jh5BBICRuTzYij9XhqKKAk7OPYT07YSjvWzreaPCtDfwBVOKarYseuAUAAAAASUVORK5CYII=" />
+    <link rel="icon" sizes="any" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23207EDF' d='M26 32c4 0 6-2 6-6V6c0-4-2-6-6-6H6C2 0 0 2 0 6v17l9 9h17ZM4 4h24v24H10v-6H4V4Zm13.5 9.5 1-8.5L9 17h6.5l-1 10 9-13.5h-6Z'/%3E%3C/svg%3E" />
     <style>
         :root {
             color-scheme: light dark;
@@ -132,17 +133,17 @@
         <nav>
             <button class="copy" id="copy">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M5.144 22a2.03 2.03 0 0 1-1.514-.652C3.21 20.913 3 20.41 3 19.84V6.342h2.144V19.84h10.435V22H5.144Zm3.78-3.847c-.589 0-1.09-.217-1.503-.652a2.152 2.152 0 0 1-.619-1.53V4.16c0-.585.206-1.091.62-1.519A2.011 2.011 0 0 1 8.923 2h8.932c.59 0 1.094.214 1.514.641.42.428.63.934.63 1.519v11.81a2.13 2.13 0 0 1-.63 1.53 2.03 2.03 0 0 1-1.514.653H8.924Zm0-2.182h8.932V4.16H8.924v11.81Z"/>
+                    <path d="M6 22c-2 0-3-1-3-3V6.5h2V20h10.5v2H6Zm4-4c-2 0-3-1-3-3V5c0-2 1-3 3-3h7c2 0 3 1 3 3v10c0 2-1 3-3 3h-7Zm-1-2h9V4H9v12Z"/>
                 </svg>
             </button>
             <button class="share" id="share">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M10.875 4.275v11.95H13.1V4.275l1.875 1.875 1.575-1.575L11.975 0 7.4 4.575 9 6.15l1.875-1.875Zm3.46 17.461v2.014h2.932c.8 0 1.482-.271 2.043-.814a2.663 2.663 0 0 0 .843-1.992V19.36c0-.361.123-.663.37-.904.246-.242.554-.362.923-.362H22v-3.665h-.554c-.37 0-.677-.121-.924-.363a1.214 1.214 0 0 1-.37-.904v-1.584c0-.785-.28-1.452-.842-2.002a2.81 2.81 0 0 0-2.043-.826H15v2.036h1.782c.37 0 .678.12.924.362.246.241.369.543.369.905v1.584c0 .588.177 1.12.531 1.595.354.475.831.765 1.431.87v.182a2.898 2.898 0 0 0-1.42 1.007 2.568 2.568 0 0 0-.542 1.594v1.561c0 .378-.123.687-.369.928a1.268 1.268 0 0 1-.924.362h-2.447Zm-9.657 1.2c.554.543 1.231.814 2.032.814h2.932v-2.014H7.218c-.385 0-.7-.12-.947-.362-.246-.241-.37-.55-.37-.927v-1.562c0-.588-.18-1.12-.542-1.594a2.898 2.898 0 0 0-1.42-1.007v-.181a2.19 2.19 0 0 0 1.431-.871 2.602 2.602 0 0 0 .532-1.595v-1.584c0-.362.123-.664.369-.905s.562-.362.947-.362H9V8.75H6.71c-.8 0-1.478.275-2.032.826a2.716 2.716 0 0 0-.831 2.002v1.584c0 .362-.127.663-.38.904a1.278 1.278 0 0 1-.913.363H2v3.665h.554c.354 0 .658.12.912.362.254.241.38.543.38.904v1.584c0 .785.278 1.448.832 1.992Z"/>
+                    <path d="M11 17V4L9 6 7.5 4.5 12 0l4.5 4.5L15 6l-2-2v13h-2Zm9 3c0 2-1 3-3 3h-2.5v-2c.75.0 1.5.0 2.5.0L18 21v-2c0-2 1-2.75 2.5-2.75v-.5C19 15.75 18 15 18 13v-2l-1-.0c-.5-.0-1.5-0-2 0V9h2c2 0 3 1 3 3v2h2v4h-2v2ZM4 18v2c0 2 1 3 3 3h2.5v-2c-.75.0-1.5.0-2.5.0L6 21v-2c0-2-1-2.75-2.5-2.75v-.5C5 15.75 6 15 6 13v-2l1-0c.5-.0 1.5-.0 2 0V9H7c-2 0-3 1-3 3v2H2v4h2Z"/>
                 </svg>
             </button>
             <button class="clear" id="clear">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M6.644 21c-.668 0-1.231-.226-1.688-.677-.456-.45-.685-1.007-.685-1.667V5.48H3V3.137h5.576V2h6.848v1.137H21V5.48h-1.271v13.175c0 .644-.233 1.196-.698 1.655a2.298 2.298 0 0 1-1.675.689H6.644ZM17.356 5.48H6.644v13.176h10.712V5.48ZM8.82 16.747h2.104v-9.38H8.82v9.38Zm4.305 0h2.103v-9.38h-2.103v9.38Z"/>
+                    <path d="M8 22c-2 0-3-1-3-3V5H3.5V3H8V2h8v1h4.5v2H19v14c0 2-1 3-3 3H8Zm9-17H7v15h10V5ZM9 18V7h2v11H9Zm4 0V7h2v11h-2Z"/>
                 </svg>
             </button>
         </nav>

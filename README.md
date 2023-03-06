@@ -6,7 +6,7 @@ A simple text field in a self-contained HTML page that's quicker than a Post-it 
 
 ## Setting up QuickNote
 
-Copy the HTML file wherever you want it. Locally, on your server, wherever. It's just the one file (favicon optional). #simplicity
+Copy the HTML file wherever you want it. Locally, on your server, wherever. It's just the one file. #simplicity
 
 You can open Quicknote even faster by:
 - **Option A:** Setting it as your browser's new tab page
@@ -37,6 +37,20 @@ Full functionality assumes you're using a modern browser that supports current w
 If you're using a browser/device that's less than a couple years old, Quicknote should work just fine, except:
 - Share does not work in Chrome-based browsers on MacOS – Use Safari
 - These APIs are only available in [secure contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts) – over HTTPS or from local resources
+
+**#itscomplicated: Favicon support**
+
+Surprisingly, there is still no (simple) [canonical way](https://dev.to/masakudamatsu/favicon-nightmare-how-to-maintain-sanity-3al7) to approach favicons in 2023.
+
+QuickNote includes link tags with favicons encoded inline in `.png` and `.svg` format. This should work for modern browsers without an additional HTTP request. I've also included the favicon in a couple other formats to support other use cases:
+- Safari only supports `.png` or `.ico` favicons in normal tabs (no SVG support), and uses a separate format for pinned tabs:
+
+    `<link rel="mask-icon" href="/safaricon.svg" color="#207EDF">`
+- Old and niche browsers are a mixed bag – including `favicon.ico` in your site root will probably work for many of these but YMMV
+- Pretty app icons for mobile devices and browser apps require about a dozen extra files, a manifest, and a bunch more requests – this isn't a relevant use case for me but you can [generate them](https://realfavicongenerator.net/) if you want
+
+
+## Usage & feedback
 
 Feel free to use or modify QuickNote as you see fit (GPL).
 
