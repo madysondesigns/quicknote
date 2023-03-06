@@ -38,21 +38,17 @@ If you're using a browser/device that's less than a couple years old, Quicknote 
 - Share does not work in Chrome-based browsers on MacOS – Use Safari
 - These APIs are only available in [secure contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts) – over HTTPS or from local resources
 
-**#itscomplicated: Cross-platform favicons**
+**#itscomplicated: Favicon support**
 
-Surprisingly, there is still no (simple) canonical way to approach favicons in 2023.
+Surprisingly, there is still no (simple) [canonical way](https://dev.to/masakudamatsu/favicon-nightmare-how-to-maintain-sanity-3al7) to approach favicons in 2023.
 
-QuickNote's `<link rel="icon">` tag uses an embedded SVG that works for most browsers without an additional HTTP request. I've also included the favicon in a couple other formats to support wacky caveats (ahem, Safari):
-- Safari does not support SVG favicons at all (wat.) – Your options are to drop the included `favicon.ico` file in your site root (no link tag needed) or to include a second link for PNG format:
-
-    `<link rel="icon" type="image/png" sizes="any" href="/favicon.png">`
-- Safari uses a separate icon for pinned tabs – you can add another link to support this:
+QuickNote includes link tags with favicons encoded inline in `.png` and `.svg` format. This should work for modern browsers without an additional HTTP request. I've also included the favicon in a couple other formats to support other use cases:
+- Safari only supports `.png` or `.ico` favicons in normal tabs (no SVG support), and uses a separate format for pinned tabs:
 
     `<link rel="mask-icon" href="/safaricon.svg" color="#207EDF">`
-- Old and niche browsers are a mixed bag – `favicon.ico` in your site root will probably work for many of these in addition to Safari, but YMMV
-- Pretty home screen icons on mobile devices require about a dozen extra files, a manifest, and a bunch more requests – this isn't a relevant use case for me so I didn't include these
+- Old and niche browsers are a mixed bag – including `favicon.ico` in your site root will probably work for many of these but YMMV
+- Pretty app icons for mobile devices and browser apps require about a dozen extra files, a manifest, and a bunch more requests – this isn't a relevant use case for me but you can [generate them](https://realfavicongenerator.net/) if you want
 
-If you'd like to support more [scenarios](https://dev.to/masakudamatsu/favicon-nightmare-how-to-maintain-sanity-3al7), feel free to use the included images to [generate](https://realfavicongenerator.net/) more versions.
 
 ## Usage & feedback
 
